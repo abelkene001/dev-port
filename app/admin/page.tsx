@@ -29,7 +29,10 @@ export default async function AdminDashboard() {
           {/* Add New Project Form */}
           <div className="bg-[#0A0A0A] border border-white/10 p-6 rounded-xl mb-8">
             <h3 className="text-xl font-semibold mb-4">Add New Project</h3>
-            <form action={createProject} className="space-y-4">
+            <form action={async (formData) => {
+              "use server";
+              await createProject(formData);
+            }} className="space-y-4">
               <div>
                 <label className="block text-sm text-white/70 mb-1">Title</label>
                 <input name="title" type="text" required className="w-full bg-black border border-white/10 rounded px-3 py-2 focus:border-[#E3B619] outline-none" />
@@ -74,7 +77,10 @@ export default async function AdminDashboard() {
                   <h4 className="font-bold">{project.title}</h4>
                   <p className="text-sm text-white/50">{project.status}</p>
                 </div>
-                <form action={deleteProject.bind(null, project.id)}>
+                <form action={async () => {
+                  "use server";
+                  await deleteProject(project.id);
+                }}>
                   <button type="submit" className="text-red-500 hover:text-red-400 text-sm font-medium">
                     Delete
                   </button>
