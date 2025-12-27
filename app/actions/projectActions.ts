@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "../lib/supabase";
 
 export async function handleLike(projectId: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -71,7 +71,7 @@ export async function handleLike(projectId: number) {
 }
 
 export async function createProject(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -104,7 +104,7 @@ export async function createProject(formData: FormData) {
 }
 
 export async function updateProject(projectId: number, formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -140,7 +140,7 @@ export async function updateProject(projectId: number, formData: FormData) {
 }
 
 export async function deleteProject(projectId: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

@@ -3,7 +3,7 @@ import { createClient } from '../lib/supabase';
 import { createProject, deleteProject } from '../actions/projectActions';
 
 export default async function AdminDashboard() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Fetch Projects
   const { data: projects } = await supabase
