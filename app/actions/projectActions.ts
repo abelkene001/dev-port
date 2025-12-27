@@ -85,18 +85,22 @@ export async function createProject(formData: FormData) {
     return { error: "You are not authorized to create a project." };
   }
 
+  // Parse tags from comma-separated string to array
+  const tagsString = formData.get("tags") as string;
+  const tags = tagsString ? tagsString.split(",").map((tag) => tag.trim()) : [];
+
   const { error: insertError } = await supabase.from("projects").insert({
     title: formData.get("title"),
     slug: formData.get("slug"),
     description: formData.get("description"),
     image_url: formData.get("image_url"),
-    tags: formData.get("tags"),
+    tags: tags,
     status: formData.get("status"),
   });
 
   if (insertError) {
     console.error(insertError);
-    return { error: "Something went wrong." };
+    return { error: insertError.message };
   }
 
   revalidatePath("/");
@@ -118,6 +122,10 @@ export async function updateProject(projectId: number, formData: FormData) {
     return { error: "You are not authorized to update a project." };
   }
 
+  // Parse tags from comma-separated string to array
+  const tagsString = formData.get("tags") as string;
+  const tags = tagsString ? tagsString.split(",").map((tag) => tag.trim()) : [];
+
   const { error: updateError } = await supabase
     .from("projects")
     .update({
@@ -125,14 +133,14 @@ export async function updateProject(projectId: number, formData: FormData) {
       slug: formData.get("slug"),
       description: formData.get("description"),
       image_url: formData.get("image_url"),
-      tags: formData.get("tags"),
+      tags: tags,
       status: formData.get("status"),
     })
     .eq("id", projectId);
 
   if (updateError) {
     console.error(updateError);
-    return { error: "Something went wrong." };
+    return { error: updateError.message };
   }
 
   revalidatePath("/");
@@ -161,7 +169,7 @@ export async function deleteProject(projectId: number) {
 
   if (deleteError) {
     console.error(deleteError);
-    return { error: "Something went wrong." };
+    return { error: deleteError.message };
   }
 
   revalidatePath("/");
