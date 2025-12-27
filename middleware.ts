@@ -58,8 +58,25 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user && request.nextUrl.pathname.startsWith('/admin')) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  // Protect /admin routes
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    // 1. If not logged in, redirect to login
+    if (!user) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    // 2. If logged in but email doesn't match the ADMIN_EMAIL in .env, redirect to home
+    // This ensures only YOU can access the admin panel.
+    if (user.email !== process.env.ADMIN_EMAIL) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+  }
+
+  // If user is already logged in and tries to go to /login, redirect to /admin
+  if (user && request.nextUrl.pathname === '/login') {
+     if (user.email === process.env.ADMIN_EMAIL) {
+        return NextResponse.redirect(new URL('/admin', request.url))
+     }
   }
 
   return response

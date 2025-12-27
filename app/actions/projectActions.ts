@@ -1,19 +1,14 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { supabase } from "../lib/supabase";
-import { cookies } from "next/headers";
+import { createClient } from "../lib/supabase";
 
-async function getUser() {
-  const cookieStore = cookies();
+export async function handleLike(projectId: number) {
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  return user;
-}
 
-export async function handleLike(projectId: number) {
-  const user = await getUser();
   if (!user) {
     return { error: "You must be logged in to like a project." };
   }
@@ -76,18 +71,17 @@ export async function handleLike(projectId: number) {
 }
 
 export async function createProject(formData: FormData) {
-  const user = await getUser();
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     return { error: "You must be logged in to create a project." };
   }
 
-  const { data: admin, error: adminError } = await supabase
-    .from("admin")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  if (adminError || !admin) {
+  // Check if the user is the admin
+  if (user.email !== process.env.ADMIN_EMAIL) {
     return { error: "You are not authorized to create a project." };
   }
 
@@ -110,18 +104,17 @@ export async function createProject(formData: FormData) {
 }
 
 export async function updateProject(projectId: number, formData: FormData) {
-  const user = await getUser();
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     return { error: "You must be logged in to update a project." };
   }
 
-  const { data: admin, error: adminError } = await supabase
-    .from("admin")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  if (adminError || !admin) {
+  // Check if the user is the admin
+  if (user.email !== process.env.ADMIN_EMAIL) {
     return { error: "You are not authorized to update a project." };
   }
 
@@ -147,18 +140,17 @@ export async function updateProject(projectId: number, formData: FormData) {
 }
 
 export async function deleteProject(projectId: number) {
-  const user = await getUser();
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     return { error: "You must be logged in to delete a project." };
   }
 
-  const { data: admin, error: adminError } = await supabase
-    .from("admin")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
-  if (adminError || !admin) {
+  // Check if the user is the admin
+  if (user.email !== process.env.ADMIN_EMAIL) {
     return { error: "You are not authorized to delete a project." };
   }
 

@@ -1,9 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { supabase } from "../lib/supabase";
+import { createClient } from "../lib/supabase";
 
 export async function submitInquiry(formData: FormData) {
+  const supabase = createClient();
   const { error } = await supabase.from("messages").insert({
     sender_name: formData.get("name"),
     email: formData.get("email"),
