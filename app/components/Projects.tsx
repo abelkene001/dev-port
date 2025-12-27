@@ -1,14 +1,14 @@
 "use client";
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { createClient } from '../lib/supabase-client';
 import { handleLike } from '../actions/projectActions';
 
 interface Project {
   id: number;
   title: string;
   description: string;
-  href: string; // Assuming 'slug' or a specific URL field is used for the link
+  href: string;
   status: string;
   likes_count: number;
   image_url?: string;
@@ -16,6 +16,7 @@ interface Project {
 
 const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const supabase = createClient();
 
   useEffect(() => {
     const getProjects = async () => {
@@ -27,13 +28,11 @@ const Projects = () => {
       if (error) {
         console.error('Error fetching projects:', error);
       } else if (data) {
-        // Map the database fields to the component's expected structure if necessary
-        // For now assuming the structure matches or is close enough
         const formattedProjects = data.map((item: any) => ({
           id: item.id,
           title: item.title,
           description: item.description,
-          href: item.slug ? `/projects/${item.slug}` : '#', // Or use a specific 'demo_url' if available
+          href: item.slug ? `/projects/${item.slug}` : '#',
           status: item.status,
           likes_count: item.likes_count,
           image_url: item.image_url
@@ -54,7 +53,7 @@ const Projects = () => {
     
     await handleLike(projectId);
     
-    // Re-fetch to ensure sync (optional, but good for consistency)
+    // Re-fetch to ensure sync
     const { data } = await supabase.from('projects').select('likes_count').eq('id', projectId).single();
     if (data) {
         setProjects((prev) =>
