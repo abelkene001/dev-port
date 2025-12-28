@@ -8,8 +8,9 @@ interface Project {
   slug: string;
   description: string;
   image_url: string;
-  tags: string; // Supabase might return array, but form uses string. We might need to handle this.
+  tags: string | string[]; // Can be array from DB or string from form
   status: string;
+  likes_count: number;
 }
 
 export default function ProjectManager({ projects }: { projects: any[] }) {
@@ -40,12 +41,6 @@ export default function ProjectManager({ projects }: { projects: any[] }) {
 
   const handleEdit = (project: any) => {
     setEditingProject(project);
-    // Manually populate form if needed, or rely on defaultValue with key
-    // Using key on form is a good trick to reset it when editingProject changes
-    if (formRef.current) {
-        // We can't easily set values of uncontrolled inputs without a reset or key change
-        // So we will use the 'key' prop on the form to force re-render when editingProject changes
-    }
   };
 
   const handleCancel = () => {
@@ -113,7 +108,7 @@ export default function ProjectManager({ projects }: { projects: any[] }) {
               <input 
                 name="tags" 
                 type="text" 
-                defaultValue={editingProject?.tags || ''}
+                defaultValue={Array.isArray(editingProject?.tags) ? editingProject?.tags.join(', ') : editingProject?.tags || ''}
                 className="w-full bg-black border border-white/10 rounded px-3 py-2 focus:border-[#E3B619] outline-none" 
               />
             </div>
@@ -151,9 +146,23 @@ export default function ProjectManager({ projects }: { projects: any[] }) {
         <h3 className="text-xl font-semibold">Existing Projects</h3>
         {projects?.map((project) => (
           <div key={project.id} className="flex justify-between items-center bg-[#0A0A0A] border border-white/10 p-4 rounded-lg">
-            <div>
-              <h4 className="font-bold">{project.title}</h4>
-              <p className="text-sm text-white/50">{project.status}</p>
+            <div className="flex items-center gap-4">
+                {project.image_url && (
+                    <img src={project.image_url} alt={project.title} className="w-12 h-12 object-cover rounded" />
+                )}
+                <div>
+                  <h4 className="font-bold">{project.title}</h4>
+                  <div className="flex items-center gap-3 text-sm text-white/50">
+                    <span>{project.status}</span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                        </svg>
+                        {project.likes_count}
+                    </span>
+                  </div>
+                </div>
             </div>
             <div className="flex gap-3">
                 <button 
