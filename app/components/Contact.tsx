@@ -1,15 +1,23 @@
 "use client";
 import { motion } from 'framer-motion';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { submitInquiry } from '../actions/inquiryActions';
 
 const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null);
+  const [isSerious, setIsSerious] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {
+    // Basic client-side validation/filtering
+    const budget = formData.get('budget');
+    const timeline = formData.get('timeline');
+    
+    // Simple logic: If they have a budget and timeline, we treat them as "serious" (or just tag them in the backend)
+    // For now, we just submit everything, but you could add logic here to reject or flag.
+    
     await submitInquiry(formData);
     formRef.current?.reset();
-    alert('Message sent!');
+    alert('Message sent! I will get back to you shortly.');
   };
 
   return (
@@ -20,60 +28,119 @@ const Contact = () => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <h2 className="text-4xl font-bold text-center mb-12">Get In Touch</h2>
-      <form ref={formRef} action={handleSubmit} className="max-w-xl mx-auto">
-        <div className="relative z-0 w-full mb-5 group">
+      <h2 className="text-4xl font-bold text-center mb-12">Start a Project</h2>
+      <form ref={formRef} action={handleSubmit} className="max-w-xl mx-auto space-y-6">
+        
+        {/* Name */}
+        <div className="relative z-0 w-full group">
           <input
             type="text"
             name="name"
             id="floating_name"
-            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none dark:text-white dark:border-white/10 dark:focus:border-[#E3B619] focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
             placeholder=" "
             required
           />
           <label
             htmlFor="floating_name"
-            className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-focus:dark:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Your Name
           </label>
         </div>
-        <div className="relative z-0 w-full mb-5 group">
+
+        {/* Email */}
+        <div className="relative z-0 w-full group">
           <input
             type="email"
             name="email"
             id="floating_email"
-            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none dark:text-white dark:border-white/10 dark:focus:border-[#E3B619] focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
             placeholder=" "
             required
           />
           <label
             htmlFor="floating_email"
-            className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-focus:dark:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Email address
           </label>
         </div>
-        <div className="relative z-0 w-full mb-5 group">
+
+        {/* Phone Number */}
+        <div className="relative z-0 w-full group">
+          <input
+            type="tel"
+            name="phone"
+            id="floating_phone"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
+            placeholder=" "
+          />
+          <label
+            htmlFor="floating_phone"
+            className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >
+            Phone Number (Optional)
+          </label>
+        </div>
+
+        {/* Lead Filtering Questions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="relative z-0 w-full group">
+                <select
+                    name="budget"
+                    className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
+                >
+                    <option value="" className="bg-black text-gray-500">Select Budget Range</option>
+                    <option value="<5k" className="bg-black">&lt; $5k</option>
+                    <option value="5k-10k" className="bg-black">$5k - $10k</option>
+                    <option value="10k-25k" className="bg-black">$10k - $25k</option>
+                    <option value="25k+" className="bg-black">$25k+</option>
+                </select>
+                <label className="absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]">
+                    Estimated Budget
+                </label>
+            </div>
+
+            <div className="relative z-0 w-full group">
+                <select
+                    name="timeline"
+                    className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
+                >
+                    <option value="" className="bg-black text-gray-500">Select Timeline</option>
+                    <option value="ASAP" className="bg-black">ASAP</option>
+                    <option value="1-3 months" className="bg-black">1-3 Months</option>
+                    <option value="3+ months" className="bg-black">3+ Months</option>
+                </select>
+                <label className="absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]">
+                    Timeline
+                </label>
+            </div>
+        </div>
+
+        {/* Message */}
+        <div className="relative z-0 w-full group">
           <textarea
             name="message"
             id="floating_message"
-            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none dark:text-white dark:border-white/10 dark:focus:border-[#E3B619] focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
+            rows={4}
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
             placeholder=" "
             required
           />
           <label
             htmlFor="floating_message"
-            className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-focus:dark:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Your message
+            Project Details
           </label>
         </div>
+
         <button
           type="submit"
-          className="text-black bg-[#E3B619] hover:bg-[#B59414] focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          className="w-full text-black bg-[#E3B619] hover:bg-[#B59414] focus:ring-4 focus:outline-none focus:ring-yellow-300 font-bold rounded-lg text-sm px-5 py-3 text-center transition-all transform hover:scale-[1.02]"
         >
-          Submit
+          Send Inquiry
         </button>
       </form>
     </motion.section>

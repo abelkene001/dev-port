@@ -32,7 +32,9 @@ const Projects = () => {
           id: item.id,
           title: item.title,
           description: item.description,
-          href: item.slug ? `/projects/${item.slug}` : '#',
+          // Use the slug directly as the URL if it starts with http, otherwise treat as internal or handle accordingly
+          // Assuming the user pastes a full URL into the slug field based on the request
+          href: item.slug, 
           status: item.status,
           likes_count: item.likes_count,
           image_url: item.image_url
@@ -91,11 +93,11 @@ const Projects = () => {
             <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/5 w-full">
               <a
                 href={project.href}
-                className="text-[#E3B619] hover:underline"
+                className="text-[#E3B619] hover:underline font-semibold"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Live Demo
+                See It In Action →
               </a>
               <button 
                 onClick={() => onLike(project.id)}
