@@ -45,7 +45,7 @@ const AiAudit = () => {
           <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">Kene AI Audit</h3>
           
           <p className="text-neutral-300 mb-6 leading-relaxed text-sm md:text-base">
-            This tool uses AI to check your business health, find leakholes & suggest fixes to them.
+              Stop guessing and start growing. Kène audits your daily operations, uncovers hidden bottlenecks, and builds you a custom roadmap to a smoother, more profitable business.
           </p>
           
           <div className="flex flex-wrap gap-2 mb-8">
@@ -57,7 +57,9 @@ const AiAudit = () => {
           </div>
           
           <a 
-            href="#" 
+            href="https://kene-ai-audit.vercel.app/" 
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 bg-[#E3B619] text-black font-bold py-3 px-6 rounded-lg hover:bg-[#E3B619]/90 transition-all transform hover:translate-y-[-2px] w-full md:w-auto shadow-lg shadow-[#E3B619]/20"
           >
             Check Business Health

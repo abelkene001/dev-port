@@ -20,6 +20,10 @@ const icons = {
   supabase: <path d="M16.48 4.63a1.07 1.07 0 0 0-1.07-1.06H1.07A1.07 1.07 0 0 0 0 4.63v14.74a1.07 1.07 0 0 0 1.07 1.06h14.34a1.07 1.07 0 0 0 1.07-1.06V4.63Zm-4 9.24a4.13 4.13 0 0 1-8.22.8c.36.27.76.4 1.18.4a2.95 2.95 0 0 0 2.95-2.95v-5.2a5.27 5.27 0 0 0-3.32 9.27C7.74 14.8.4 11.23.4 7.02A6.63 6.63 0 0 1 12.48 2a1.06 1.06 0 0 0 1.06 1.06c0 5.4-3.79 9.81-8.72 9.81Z" />,
   ai: <path d="M17.5 11H19v2h-1.5zm-1.5 7.5v-1H17v1zm-3-15v1.5h1V5zm-2 0H10V3.5h1zm-2 0H8V5H6.5V3.5h-1V5h-1V3.5H3V5H1.5V3.5H0v12h1.5V17H3v-1.5h1.5V17H6v-1.5h1V17h1.5v-1.5H10V17h1v-1.5h1.5V17h1v-1.5H15V17h1.5v-1.5H18V17h1v-1.5h1.5V17H22v-1.5h2V22H0V0h22v3.5h-2V2h-1.5v1.5H17V2h-1.5v1.5h-1V2h-1.5v1.5h-1V2H10v1.5H8.5V2H7V3.5zm-5 12H10v-1H8.5zm-1.5-3H10v-1H7zm1.5-1.5H10v-1H8.5zm-1.5-3H10v-1H7zM12 11h1.5v1H12zm1.5 1.5H15v1h-1.5zm-6-1.5H10v-1H7.5zm0-3H10V7H7.5zM6 11h1.5v1H6zm-1.5 1.5H6v1H4.5zM6 8.5h1.5v1H6zm-1.5-1.5H6v1H4.5zM12 7h1.5v1H12z" />,
   automation: <path d="M18.66 12.3a1.55 1.55 0 0 1-1.34 2.68L15.9 16a2.4 2.4 0 0 1-3.9 0l-1.42-1.06a1.55 1.55 0 0 1-1.34-2.68l.8-2.12-2.13-.8A1.55 1.55 0 0 1 6.57 8L5.5 6.57a1.55 1.55 0 0 1 2.68-1.34l1.06 1.42a2.4 2.4 0 0 1 3.9 0l1.06-1.42a1.55 1.55_0 0 1 2.68 1.34l-.8 2.13 2.12.8a1.55 1.55 0 0 1 1.34 2.68ZM12 8.7a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6Zm0 1.98a1.32 1.32 0 1 1 0 2.64 1.32 1.32 0 0 1 0-2.64Z" />,
+  tailwind: <path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C7.666,17.818,9.027,19.2,12.001,19.2c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z" />,
+  framer: <path d="M4 0h16v8h-8zM4 8h8l8 8h-16zM4 16h8v8z" />,
+  node: <path d="M12 1.608l10.392 6v12L12 25.608l-10.392-6v-12L12 1.608zm0 2.77L4.615 8.538v7.538L12 23.23l7.385-7.154V8.538L12 4.377z" />,
+  git: <path d="M22.61 16.52a2.78 2.78 0 0 0-1.02-3.9l-4.55-2.62a2.78 2.78 0 0 0-3.9 1.02 2.78 2.78 0 0 0 1.02 3.9l4.55 2.62a2.78 2.78 0 0 0 3.9-1.02zM12 13.5a2.78 2.78 0 1 0 0-5.56 2.78 2.78 0 0 0 0 5.56zM5.94 16.52a2.78 2.78 0 0 1-1.02-3.9l4.55-2.62a2.78 2.78 0 0 1 3.9 1.02 2.78 2.78 0 0 1-1.02 3.9L7.9 17.54a2.78 2.78 0 0 1-1.96-.98z" />,
 };
 
 const AnimatedLine = ({ d, duration, delay }: any) => (
@@ -46,6 +50,10 @@ const About = () => {
     { name: "TypeScript", icon: icons.typescript },
     { name: "Python", icon: icons.python },
     { name: "Supabase", icon: icons.supabase },
+    { name: "Tailwind CSS", icon: icons.tailwind },
+    { name: "Framer Motion", icon: icons.framer },
+    { name: "Node.js", icon: icons.node },
+    { name: "Git", icon: icons.git },
     { name: "AI / ML", icon: icons.ai },
     { name: "Automation", icon: icons.automation },
   ];
@@ -70,7 +78,7 @@ const About = () => {
           </div>
           
           <div className="mt-16 w-full">
-            <h3 className="text-2xl font-medium bg-gradient-to-br from-white to-neutral-400 bg-clip-text text-transparent mb-8">My Tech-stack</h3>
+            <h3 className="text-2xl font-medium bg-gradient-to-br from-white to-neutral-400 bg-clip-text text-transparent mb-8">My Tech Stack</h3>
             <div className="flex flex-wrap justify-center gap-4">
               {skills.map((skill, index) => (
                 <motion.div key={skill.name} variants={pillVariants} initial="hidden" whileInView="visible" transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }} viewport={{ once: true }} className="flex items-center gap-3 rounded-lg border border-yellow-400/30 bg-neutral-900/50 px-4 py-2 text-neutral-200 shadow-[0_0_8px_rgba(227,182,25,0.3)] transition-colors hover:bg-neutral-800">

@@ -5,6 +5,7 @@ import React from 'react';
 const tools = [
   { name: 'Figma', href: 'https://figma.com' },
   { name: 'VS Code', href: 'https://code.visualstudio.com' },
+  { name: 'WebStorm', href: 'https://www.jetbrains.com/webstorm/' },
   { name: 'iTerm2', href: 'https://iterm2.com' },
   { name: 'Notion', href: 'https://notion.so' },
   { name: 'Slack', href: 'https://slack.com' },

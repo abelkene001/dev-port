@@ -97,7 +97,7 @@ const Projects = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12">The Bento Vault</h2>
+        <h2 className="text-4xl font-bold text-center mb-12">My Project Vault</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
           {projects.map((project) => (
             <div
@@ -106,12 +106,13 @@ const Projects = () => {
             >
               {/* Image Section */}
               {project.image_url && (
-                <div className="w-full aspect-video overflow-hidden relative">
+                <div className="w-full h-48 overflow-hidden relative">
                   <img 
                     src={project.image_url} 
                     alt={project.title} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   {project.status === 'upcoming' && (
                     <div className="absolute top-3 right-3 text-[10px] md:text-xs font-bold uppercase text-black bg-[#E3B619] px-2 py-1 rounded-full shadow-lg">
                       Upcoming
