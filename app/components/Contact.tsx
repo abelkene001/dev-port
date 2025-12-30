@@ -5,19 +5,11 @@ import { submitInquiry } from '../actions/inquiryActions';
 
 const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [isSerious, setIsSerious] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {
-    // Basic client-side validation/filtering
-    const budget = formData.get('budget');
-    const timeline = formData.get('timeline');
-    
-    // Simple logic: If they have a budget and timeline, we treat them as "serious" (or just tag them in the backend)
-    // For now, we just submit everything, but you could add logic here to reject or flag.
-    
     await submitInquiry(formData);
     formRef.current?.reset();
-    alert('Message sent! I will get back to you shortly.');
+    alert('Thanks for reaching out! I\'ll get back to you shortly.');
   };
 
   return (
@@ -28,7 +20,13 @@ const Contact = () => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <h2 className="text-4xl font-bold text-center mb-12">Start a Project</h2>
+      <div className="text-center mb-12">
+        <h2 className="text-4xl font-bold mb-4">Let's Build Something Great</h2>
+        <p className="text-white/70 max-w-2xl mx-auto">
+          Ready to turn your vision into reality? Tell me a bit about your project, and let's see how we can work together.
+        </p>
+      </div>
+      
       <form ref={formRef} action={handleSubmit} className="max-w-xl mx-auto space-y-6">
         
         {/* Name */}
@@ -45,7 +43,7 @@ const Contact = () => {
             htmlFor="floating_name"
             className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Your Name
+            What's your name?
           </label>
         </div>
 
@@ -63,28 +61,29 @@ const Contact = () => {
             htmlFor="floating_email"
             className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Email address
+            What's your email address?
           </label>
         </div>
 
-        {/* Phone Number */}
+        {/* Project Type */}
         <div className="relative z-0 w-full group">
-          <input
-            type="tel"
-            name="phone"
-            id="floating_phone"
-            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
-            placeholder=" "
-          />
-          <label
-            htmlFor="floating_phone"
-            className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Phone Number (Optional)
-          </label>
+            <select
+                name="project_type"
+                className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
+            >
+                <option value="" className="bg-black text-gray-500">Select Project Type</option>
+                <option value="web_app" className="bg-black">Web Application</option>
+                <option value="website" className="bg-black">Website / Landing Page</option>
+                <option value="ecommerce" className="bg-black">E-commerce Store</option>
+                <option value="audit" className="bg-black">Code/Performance Audit</option>
+                <option value="other" className="bg-black">Other</option>
+            </select>
+            <label className="absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]">
+                What are you looking to build?
+            </label>
         </div>
 
-        {/* Lead Filtering Questions */}
+        {/* Budget & Timeline */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="relative z-0 w-full group">
                 <select
@@ -98,7 +97,7 @@ const Contact = () => {
                     <option value="25k+" className="bg-black">$25k+</option>
                 </select>
                 <label className="absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]">
-                    Estimated Budget
+                    What's your budget?
                 </label>
             </div>
 
@@ -108,12 +107,12 @@ const Contact = () => {
                     className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-white/10 appearance-none focus:outline-none focus:ring-0 focus:border-[#E3B619] peer"
                 >
                     <option value="" className="bg-black text-gray-500">Select Timeline</option>
-                    <option value="ASAP" className="bg-black">ASAP</option>
+                    <option value="ASAP" className="bg-black">ASAP (I need it yesterday)</option>
                     <option value="1-3 months" className="bg-black">1-3 Months</option>
-                    <option value="3+ months" className="bg-black">3+ Months</option>
+                    <option value="flexible" className="bg-black">Flexible</option>
                 </select>
                 <label className="absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0]">
-                    Timeline
+                    When do you need it by?
                 </label>
             </div>
         </div>
@@ -132,7 +131,7 @@ const Contact = () => {
             htmlFor="floating_message"
             className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-[#E3B619] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Project Details
+            Tell me more about the project...
           </label>
         </div>
 
@@ -140,7 +139,7 @@ const Contact = () => {
           type="submit"
           className="w-full text-black bg-[#E3B619] hover:bg-[#B59414] focus:ring-4 focus:outline-none focus:ring-yellow-300 font-bold rounded-lg text-sm px-5 py-3 text-center transition-all transform hover:scale-[1.02]"
         >
-          Send Inquiry
+          Let's Talk
         </button>
       </form>
     </motion.section>
