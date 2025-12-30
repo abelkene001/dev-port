@@ -70,7 +70,7 @@ const About = () => {
           </div>
           
           <div className="mt-16 w-full">
-            <h3 className="text-2xl font-medium bg-gradient-to-br from-white to-neutral-400 bg-clip-text text-transparent mb-8">My Toolkit</h3>
+            <h3 className="text-2xl font-medium bg-gradient-to-br from-white to-neutral-400 bg-clip-text text-transparent mb-8">My Tech-stack</h3>
             <div className="flex flex-wrap justify-center gap-4">
               {skills.map((skill, index) => (
                 <motion.div key={skill.name} variants={pillVariants} initial="hidden" whileInView="visible" transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }} viewport={{ once: true }} className="flex items-center gap-3 rounded-lg border border-yellow-400/30 bg-neutral-900/50 px-4 py-2 text-neutral-200 shadow-[0_0_8px_rgba(227,182,25,0.3)] transition-colors hover:bg-neutral-800">

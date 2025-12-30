@@ -37,6 +37,27 @@ export function LampDemo() {
           —to elegant web platforms, my focus is on clean, effective work that
           endures.
         </p>
+        
+        <div className="mt-8 flex flex-col items-center gap-2">
+          <p className="text-[#E3B619] font-medium animate-pulse">
+            Check your business health ↓
+          </p>
+          <a 
+            href="#ai-audit"
+            className="px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all flex items-center gap-2 group"
+          >
+            Use AI Audit Tool
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-4 w-4 group-hover:translate-x-1 transition-transform" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
       </motion.div>
     </HeroContainer>
   );
