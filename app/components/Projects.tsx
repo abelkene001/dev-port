@@ -96,90 +96,92 @@ const Projects = () => {
         {lines.map((line, i) => (<AnimatedLine key={i} {...line} />))}
       </div>
 
-      <div className="relative z-10 container mx-auto px-4">
+      <div className="relative z-10 container mx-auto px-4 flex flex-col items-center">
         <h2 className="text-4xl font-bold text-center mb-12">My Project Vault</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-          {projects.map((project) => (
-            <div
+        
+        <div className="flex flex-col gap-8 w-full items-center">
+          {projects.map((project, index) => (
+            <motion.div
               key={project.id}
-              className="bg-[#0A0A0A] border border-white/10 rounded-2xl overflow-hidden hover:brightness-110 transition-all flex flex-col h-full group col-span-1"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="w-full max-w-4xl bg-[#0A0A0A] border border-white/10 hover:border-[#E3B619] rounded-3xl overflow-hidden shadow-lg flex flex-col md:flex-row group hover:shadow-[0_0_30px_rgba(227,182,25,0.15)] transition-all duration-300"
             >
               {/* Image Section */}
-              {project.image_url && (
-                <div className="w-full h-48 overflow-hidden relative">
+              <div className="w-full md:w-1/2 h-64 md:min-h-[320px] relative overflow-hidden bg-white/5">
+                {project.image_url ? (
                   <img 
                     src={project.image_url} 
                     alt={project.title} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  {project.status === 'upcoming' && (
-                    <div className="absolute top-3 right-3 text-[10px] md:text-xs font-bold uppercase text-black bg-[#E3B619] px-2 py-1 rounded-full shadow-lg">
-                      Upcoming
+                ) : (
+                   <div className="w-full h-full flex items-center justify-center text-white/20">
+                    <span className="text-4xl">✨</span>
+                   </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r" />
+                
+                {project.status === 'upcoming' && (
+                    <div className="absolute top-4 left-4 text-xs font-bold uppercase text-black bg-[#E3B619] px-3 py-1 rounded-full shadow-lg z-10">
+                        Upcoming
                     </div>
-                  )}
-                </div>
-              )}
+                )}
+              </div>
 
-              <div className="p-4 md:p-6 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-lg md:text-2xl font-bold line-clamp-1">{project.title}</h3>
-                  {/* Fallback status badge if no image */}
-                  {!project.image_url && project.status === 'upcoming' && (
-                    <div className="text-[10px] md:text-xs font-bold uppercase text-[#E3B619] bg-[#E3B619]/10 px-2 py-1 rounded-full">
-                      Upcoming
-                    </div>
-                  )}
+              {/* Content Section */}
+              <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-center relative">
+                <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white">{project.title}</h3>
+                    <button 
+                        onClick={() => onLike(project.id)}
+                        className="flex items-center gap-2 text-white/50 hover:text-red-500 transition-colors group/like"
+                    >
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 transition-transform group-active/like:scale-125"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        >
+                        <path
+                            fillRule="evenodd"
+                            d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                            clipRule="evenodd"
+                        />
+                        </svg>
+                        <span className="text-sm font-medium group-hover/like:text-white transition-colors">{project.likes_count}</span>
+                    </button>
                 </div>
+
+                <p className="text-neutral-300 mb-6 leading-relaxed text-sm md:text-base line-clamp-3">
+                    {project.description}
+                </p>
 
                 {/* Tags */}
                 {project.tags && project.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.slice(0, 3).map((tag, index) => (
-                      <span key={index} className="text-[9px] md:text-[10px] uppercase tracking-wider font-medium text-white/60 bg-white/5 px-2 py-1 rounded border border-white/5">
+                <div className="flex flex-wrap gap-2 mb-8">
+                    {project.tags.slice(0, 4).map((tag, index) => (
+                    <span key={index} className="text-xs uppercase tracking-wider font-medium text-[#E3B619] bg-[#E3B619]/10 px-2 py-1 rounded border border-[#E3B619]/20">
                         {tag}
-                      </span>
+                    </span>
                     ))}
-                    {project.tags.length > 3 && (
-                        <span className="text-[9px] md:text-[10px] uppercase tracking-wider font-medium text-white/60 bg-white/5 px-2 py-1 rounded border border-white/5">
-                            +{project.tags.length - 3}
-                        </span>
-                    )}
-                  </div>
+                </div>
                 )}
 
-                <p className="text-white/70 flex-grow text-xs md:text-sm leading-relaxed line-clamp-3 mb-4">{project.description}</p>
-                
-                <div className="flex justify-between items-center mt-auto pt-4 border-t border-white/5 w-full">
-                  <a
-                    href={project.href}
-                    className="text-[#E3B619] hover:underline font-semibold text-xs md:text-sm"
+                <a 
+                    href={project.href} 
                     target="_blank"
                     rel="noopener noreferrer"
-                  >
-                    See It In Action →
-                  </a>
-                  <button 
-                    onClick={() => onLike(project.id)}
-                    className="flex items-center gap-2 text-white/70 hover:text-white transition-colors group/like"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 md:h-5 md:w-5 group-hover/like:text-red-500 transition-colors"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                        clipRule="evenodd"
-                      />
+                    className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-[#E3B619] hover:text-black text-white border border-white/10 hover:border-[#E3B619] font-bold py-3 px-6 rounded-lg transition-all w-full md:w-auto self-start shadow-lg"
+                >
+                    View Project
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-xs md:text-sm font-medium">{project.likes_count}</span>
-                  </button>
-                </div>
+                </a>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
